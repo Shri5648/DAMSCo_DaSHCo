@@ -5,6 +5,7 @@ import inspect
 _opt_map = {
     "DAMSCo": "optimizers.DAMSCo:DAMSCo",
     "DaSHCo": "optimizers.DaSHCo:DaSHCo",
+    "ESMuon": "optimizers.Muon_exactSVD:MuonexactSVD
 }
 
 def _load_class(spec: str):
@@ -31,4 +32,5 @@ def get_optimizer(name, *args, **kwargs):
     except KeyError:
         raise ValueError(f"Unknown optimizer '{name}'. Available: {list(_opt_map)}")
     cls = _load_class(spec)
+
     return _safe_instantiate(cls, *args, **kwargs)
