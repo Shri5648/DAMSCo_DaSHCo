@@ -5,7 +5,10 @@ import inspect
 _opt_map = {
     "DAMSCo": "optimizers.DAMSCo:DAMSCo",
     "DaSHCo": "optimizers.DaSHCo:DaSHCo",
-    "ESMuon": "optimizers.Muon_exactSVD:MuonexactSVD"
+    "ESMuon": "optimizers.ES_Muon:MuonexactSVD"
+    "NSMuon": "optimizers.NS_Muon:Muon"
+    "ESMuonpnorm":  "optimizers.Muon_pnorm: Muon_pnorm "
+    "ESMuonqnorm":  "optimizers.Muon_qnorm: Muon_qnorm"
 }
 
 def _load_class(spec: str):
@@ -34,4 +37,5 @@ def get_optimizer(name, *args, **kwargs):
     cls = _load_class(spec)
 
     return _safe_instantiate(cls, *args, **kwargs)
+
 
