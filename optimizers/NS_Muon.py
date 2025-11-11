@@ -1,6 +1,7 @@
 import torch
 import torch.nn.functional as F
 from torch import Tensor
+from src.Compressor import NoneCompressor
 
 @torch.compile
 def zeropower_via_newtonschulz5(G, steps=5):
