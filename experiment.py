@@ -15,7 +15,7 @@ def parse_args():
     p = argparse.ArgumentParser(description="Run a distributed-data experiment")
     p.add_argument("--dataset",     type=str,   required=True,    choices=["FashionMNIST","CIFAR10","Shakespeare"])
     p.add_argument("--compress",    type=str,   default="none",   choices=compressor_map)
-    p.add_argument("--optimizer",   type=str,   required=True,    choices=["DADAM","DAMSCo","DaSHCo","CDProxSGD","DAdaGrad","ESMuon"])
+    p.add_argument("--optimizer",   type=str,   required=True,    choices=["DADAM","DAMSCo","DaSHCo","CDProxSGD","DAdaGrad","ESMuon","NSMuon","ESMuonpnorm","ESMuonqnorm"])
     p.add_argument("--comm-set",    nargs="+",  default=['x'],    help="communication variables")
     p.add_argument("--lr",          type=float, default=0.001)
     p.add_argument("--lr-decay",    type=str,   default="none",   choices=["none","cosine"])
