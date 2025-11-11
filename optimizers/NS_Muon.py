@@ -27,7 +27,7 @@ class Muon(torch.optim.Optimizer):
     
     @torch.no_grad()
     def step(self):
-        hidden_matrix_params = [p for p in model.parameters() if p.ndim >= 2]
+        hidden_matrix_params = [p for p in self.model.parameters() if p.ndim >= 2]
         #for group in self.model.param_groups:
         for p in hidden_matrix_params:
                 if p.grad is None:
