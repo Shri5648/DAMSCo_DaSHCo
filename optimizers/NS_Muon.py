@@ -21,14 +21,15 @@ def zeropower_via_newtonschulz5(G, steps=5):
     return X.type_as(G)
 
 class Muon(torch.optim.Optimizer):
-    def __init__(self,params,lr=0.001, weight_decay=0.01, momentum=0.95, compressor=NoneCompressor(),device="cpu",devices=[],comm_set=['x'],lr_decay="none",nvlink=False):
+    def __init__(self,model,lr=0.001, weight_decay=0.01, momentum=0.95, compressor=NoneCompressor(),device="cpu",devices=[],comm_set=['x'],lr_decay="none",nvlink=False):
         defaults = dict(lr=lr, weight_decay=weight_decay, momentum=momentum, compressor=compressor, device=device, devices=devices,comm_set=comm_set,lr_decay=lr_decay,nvlink=nvlink)
-        super().__init__(params, defaults)
+        super().__init__(model, defaults)
     
     @torch.no_grad()
     def step(self):
-        for group in self.param_groups:
-            for p in group['params']:
+        hidden_matrix_params = [p for p in model.parameters() if p.ndim >= 2]
+        #for group in self.model.param_groups:
+        for p in hidden_matrix_params:
                 if p.grad is None:
                     continue
                 grad = p.grad
