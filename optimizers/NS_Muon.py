@@ -20,7 +20,7 @@ def zeropower_via_newtonschulz5(G, steps=5):
     return X.type_as(G)
 
 class Muon(torch.optim.Optimizer):
-    def __init__(self, params, lr=0.02, weight_decay=0.01, momentum=0.95):
+    def __init__(self,params,lr=0.02, weight_decay=0.01, momentum=0.95, compressor=NoneCompressor(),device="cpu",devices=[],comm_set=['x'],lr_decay="none",nvlink=False)
         defaults = dict(lr=lr, weight_decay=weight_decay, momentum=momentum)
         super().__init__(params, defaults)
     
