@@ -114,6 +114,9 @@ class DistDataModel():
 			if nvlink:
 				nvlink = nvlink_check()
 
+			if (optimizer_name=='NSMuon'):
+				self.optim=
+
 			self.optim = get_optimizer(optimizer_name,self.model, compressor=compressor, \
 							  comm_set=self.comm_set, device=self.device, \
 							  devices=devices, nvlink=nvlink, lr_decay=self.lr_decay,lr=self.lr)
