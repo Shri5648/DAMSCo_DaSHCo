@@ -51,8 +51,10 @@ class DistDataModel():
 		self.dataset = dataset
 		self.variety = variety
 
-		self.nprocs = self.optim.nprocs
-		self.rank = self.optim.rank
+		#self.nprocs = self.optim.nprocs
+		#self.rank = self.optim.rank
+		self.nprocs = self.optim[0].nprocs if isinstance(self.optim, list) else self.optim.nprocs
+		self.rank = self.optim[0].rank if isinstance(self.optim, list) else self.optim.rank
 		self.train_dataset, self.test_dataset = read_datasets(dataset)
 		self.batch_size = batch_size
 		self.loss_fcn = nn.CrossEntropyLoss()
