@@ -195,7 +195,11 @@ class DistDataModel():
 				loss.backward()
 				
 				# Perform step.
-				self.optim.step()
+				if isinstance(self.optim, list):
+					for opt in self.optim:
+						opt.step()
+				else:
+					self.optim.step()
 
 			# Set up a barrier at the end of the epoch.
 			self.optim.COMM.Barrier()
