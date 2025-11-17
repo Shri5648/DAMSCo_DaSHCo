@@ -130,10 +130,16 @@ class DistDataModel():
 			if self.resume == True:
 				ckpt_path = "" # input the checkpoint path to continue the training from
 				checkpoint = torch.load(ckpt_path)
-				self.optim.load_state_dict(checkpoint['optimizer'])
+				#self.optim.load_state_dict(checkpoint['optimizer'])
+				if isinstance(self.optim, list):
+        			for i, opt in enumerate(self.optim):
+            			opt.load_state_dict(checkpoint['optimizer'][i])
+    			else:
+        			self.optim.load_state_dict(checkpoint['optimizer'])
 				self.epoch = checkpoint['iter_num']
 				self.best_val_loss = checkpoint['best_val_loss']
-			rank = self.optim.rank
+			#rank = self.optim.rank
+			rank = self.optim.rank if isinstance(self.optim, list) else self.optim.rank
 			self.device = self.optim.devices[rank % len(self.optim.devices)]
 
 	'''
