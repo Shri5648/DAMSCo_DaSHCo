@@ -134,8 +134,8 @@ class DistDataModel():
 				if isinstance(self.optim, list):
 					for i, opt in enumerate(self.optim):
 						opt.load_state_dict(checkpoint['optimizer'][i])
-    			else:
-        			self.optim.load_state_dict(checkpoint['optimizer'])
+				else:
+					self.optim.load_state_dict(checkpoint['optimizer'])
 				self.epoch = checkpoint['iter_num']
 				self.best_val_loss = checkpoint['best_val_loss']
 			#rank = self.optim.rank
