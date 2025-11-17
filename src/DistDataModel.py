@@ -170,9 +170,10 @@ class DistDataModel():
 			# If verbose, print our stats.
 			if self.track:
 				test_loss,test_acc,test_time = self.tracker.evaluate(loader="test")
-				#cons_error = self.tracker.compute_cons_error(self.comm_set,self.optim)
-				optim_for_tracking = self.optim[0] if isinstance(self.optim, list) else self.optim
-				cons_error = self.tracker.compute_cons_error(self.comm_set, optim_for_tracking)
+				if isinstance(self.optim, list):
+					cons_error = 0.0  # Placeholder for dual optimizer
+				else:
+					cons_error = self.tracker.compute_cons_error(self.comm_set,self.optim)
 				train_loss,train_acc,train_time = self.tracker.evaluate(loader="train")
 				if verbose:
 					if self.model_name=="nanoGPT":
