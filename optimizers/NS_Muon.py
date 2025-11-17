@@ -22,16 +22,8 @@ def zeropower_via_newtonschulz5(G, steps=5):
     return X.type_as(G)
 
 class Muon(Optimizer):
-    def __init__(self,params,lr=0.02, weight_decay=0.01, momentum=0.95, compressor=NoneCompressor(),device="cpu",devices=[],comm_set=['x'],lr_decay="none",nvlink=False):
-        #defaults = dict(lr=lr, weight_decay=weight_decay, momentum=momentum, compressor=compressor, device=device, devices=devices,comm_set=comm_set,lr_decay=lr_decay,nvlink=nvlink)
-        #super().__init__(params, defaults)
-        #super().__init__(params, compressor=compressor, optim_name="NSMuon", comm_set=comm_set, device=device, topology="ring", devices=devices, nvlink=nvlink, lr_decay=lr_decay, lr=lr)
-        #self.lr = lr
-        #self.weight_decay = weight_decay
-        #self.momentum = momentum
-        #self.set_data()
-        defaults = dict(lr=lr, weight_decay=weight_decay, momentum=momentum)
-        super().__init__(params, defaults, compressor=compressor, optim_name="NSMuon", comm_set=comm_set, device=device, topology="ring", devices=devices, nvlink=nvlink, lr_decay=lr_decay)
+    def __init__(self,model,lr=0.02, weight_decay=0.01, momentum=0.95, compressor=NoneCompressor(),device="cpu",devices=[],comm_set=['x'],lr_decay="none",nvlink=False):
+        
         
     @torch.no_grad()
     def step(self):
