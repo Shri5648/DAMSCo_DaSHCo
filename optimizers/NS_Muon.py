@@ -26,10 +26,10 @@ class Muon(Optimizer):
         #defaults = dict(lr=lr, weight_decay=weight_decay, momentum=momentum, compressor=compressor, device=device, devices=devices,comm_set=comm_set,lr_decay=lr_decay,nvlink=nvlink)
         #super().__init__(params, defaults)
         super().__init__(params, compressor=compressor, optim_name="NSMuon", comm_set=comm_set, device=device, topology="ring", devices=devices, nvlink=nvlink, lr_decay=lr_decay, lr=lr)
-        self.lr = lr
-        self.weight_decay = weight_decay
-        self.momentum = momentum
-        self.set_data()
+        #self.lr = lr
+        #self.weight_decay = weight_decay
+        #self.momentum = momentum
+        #self.set_data()
     
     @torch.no_grad()
     def step(self):
