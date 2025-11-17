@@ -132,8 +132,8 @@ class DistDataModel():
 				checkpoint = torch.load(ckpt_path)
 				#self.optim.load_state_dict(checkpoint['optimizer'])
 				if isinstance(self.optim, list):
-        			for i, opt in enumerate(self.optim):
-            			opt.load_state_dict(checkpoint['optimizer'][i])
+					for i, opt in enumerate(self.optim):
+						opt.load_state_dict(checkpoint['optimizer'][i])
     			else:
         			self.optim.load_state_dict(checkpoint['optimizer'])
 				self.epoch = checkpoint['iter_num']
