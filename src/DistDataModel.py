@@ -116,9 +116,14 @@ class DistDataModel():
 
 			if (optimizer_name=='NSMuon'):
 				hidden_matrix_params = [p for p in self.model.parameters() if p.ndim >= 2]
-				self.optim = get_optimizer(optimizer_name,hidden_matrix_params, compressor=compressor, \
+				other_params = [p for p in self.model.parameters() if p.ndim < 2]           # Biases, BatchNorm params
+				optim1 = get_optimizer(optimizer_name,hidden_matrix_params, compressor=compressor, \
 							  comm_set=self.comm_set, device=self.device, \
 							  devices=devices, nvlink=nvlink, lr_decay=self.lr_decay,lr=self.lr)
+				optim2 = torch.optim.SGD(other_params, compressor=compressor, \
+							  comm_set=self.comm_set, device=self.device, \
+							  devices=devices, nvlink=nvlink, lr_decay=self.lr_decay,lr=self.lr)
+				self.optim=[optim1, optim2]
 			else:
 				self.optim = get_optimizer(optimizer_name,self.model, compressor=compressor, \
 							  comm_set=self.comm_set, device=self.device, \
