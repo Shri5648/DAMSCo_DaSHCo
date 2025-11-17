@@ -139,8 +139,12 @@ class DistDataModel():
 				self.epoch = checkpoint['iter_num']
 				self.best_val_loss = checkpoint['best_val_loss']
 			#rank = self.optim.rank
-			rank = self.optim.rank if isinstance(self.optim, list) else self.optim.rank
-			self.device = self.optim.devices[rank % len(self.optim.devices)]
+			rank = self.optim[0].rank if isinstance(self.optim, list) else self.optim.rank
+			#self.device = self.optim.devices[rank % len(self.optim.devices)]
+			if isinstance(self.optim, list):
+				self.device = self.optim[0].devices[rank % len(self.optim[0].devices)]
+			else:
+				self.device = self.optim.devices[rank % len(self.optim.devices)]
 
 	'''
 	Performs training for the defined number of epochs.
