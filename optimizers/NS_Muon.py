@@ -23,7 +23,12 @@ def zeropower_via_newtonschulz5(G, steps=5):
 
 class Muon(Optimizer):
     def __init__(self,model,lr=0.02, weight_decay=0.01, momentum=0.95, compressor=NoneCompressor(),device="cpu",devices=[],comm_set=['x'],lr_decay="none",nvlink=False):
-        
+        super().__init__(model,compressor=compressor,optim_name="NSMuon",comm_set=comm_set,device=device,topology="ring",devices=devices,
+                         nvlink=nvlink,lr_decay=lr_decay,lr=lr)
+
+        self.weight_decay = weight_decay
+        self.momentum = momentum
+        #self.set_data()
         
     @torch.no_grad()
     def step(self):
