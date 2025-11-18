@@ -76,3 +76,13 @@ class Muon(Optimizer):
                 # Apply Newton-Schulz orthogonalization
                 v = zeropower_via_newtonschulz5(grad, 5)
                 p.add_(v, alpha=-group['lr'])
+
+
+    def state_dict(self):
+        state = super().state_dict()
+        state.update({
+            'weight_decay': self.weight_decay,
+            'momentum': self.momentum,
+            'eps': self.eps,
+        })
+        return state
