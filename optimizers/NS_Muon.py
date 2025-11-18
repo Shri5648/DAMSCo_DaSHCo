@@ -49,6 +49,11 @@ class Muon(Optimizer):
 
         if not hasattr(self, 'state'):
             self.state = {}
+
+        # Pre-populate state for each parameter
+        for group in self.param_groups:
+            for p in group['params']:
+                self.state[p] = {}
                 
     @torch.no_grad()
     def step(self):
