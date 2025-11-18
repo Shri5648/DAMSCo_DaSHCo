@@ -22,7 +22,8 @@ def zeropower_via_newtonschulz5(G, steps=5):
     return X.type_as(G)
 
 class Muon(Optimizer):
-    def __init__(self,params,lr=0.02, weight_decay=0.01, momentum=0.95, compressor=NoneCompressor(),device="cpu",devices=[],comm_set=['x'],lr_decay="none",nvlink=False):
+    def __init__(self,params,lr=0.05, weight_decay=0.01, momentum=0.95, compressor=NoneCompressor(),device="cpu",devices=[],comm_set=['x'],lr_decay="none",nvlink=False):
+        print('lr=,weight decay=,momentum=',lr,weight_decay,momentum)
         # Ensure params is a list
         if not isinstance(params, list):
             params = list(params)
