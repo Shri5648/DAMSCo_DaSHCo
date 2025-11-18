@@ -29,7 +29,7 @@ class DistDataModel():
 
 	def __init__(self,model="LeNet5",dataset="FashionMNIST",topology="ring",\
 		optimizer=None,comm_set=['x'],batch_size=16,device='cpu',\
-		nvlink=False,track=True,seed=1337,compressor=NoneCompressor(), variety="index", lr_decay="none", lr = 0.001, resume=False):
+		nvlink=False,track=True,seed=1337,compressor=NoneCompressor(), variety="index", lr_decay="none", lr = 0.05, resume=False):
 
 		# Define our training duration and the communication parameters.
 		self.epoch = 0
