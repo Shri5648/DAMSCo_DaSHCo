@@ -83,6 +83,6 @@ class Muon(Optimizer):
         state.update({
             'weight_decay': self.weight_decay,
             'momentum': self.momentum,
-            'eps': self.eps,
+            'lr': self.lr
         })
         return state
