@@ -32,9 +32,8 @@ class Muon_pnorm(Optimizer):
                 'params': params,
                 'lr': lr,
                 'weight_decay': weight_decay,
-                'momentum': momentum
-                'pval': pval
-                
+                'momentum': momentum,
+                'pval': pval                
             }]
         else:
             # If parent created param_groups, ensure hyperparams exist
