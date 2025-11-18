@@ -79,12 +79,12 @@ class Muon(Optimizer):
 
 
     def state_dict(self):
-        state.update({
+        state = {
             'optim_name': self.optim_name,
             'steps': self.steps,
             'epoch': self.epoch,
             'weight_decay': self.weight_decay,
             'momentum': self.momentum,
             'lr': self.lr
-        })
+        }
         return state
