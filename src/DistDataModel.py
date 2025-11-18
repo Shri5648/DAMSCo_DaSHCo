@@ -116,7 +116,7 @@ class DistDataModel():
 			if nvlink:
 				nvlink = nvlink_check()
 
-			if (optimizer_name=='NSMuon'):
+			if (optimizer_name=='NSMuon') or (optimizer_name=='ESMuonpnorm'):
 				hidden_matrix_params = [p for p in self.model.parameters() if p.ndim >= 2]
 				other_params = [p for p in self.model.parameters() if p.ndim < 2]           # Biases, BatchNorm params
 				optim1 = get_optimizer(optimizer_name,hidden_matrix_params, compressor=compressor, \
