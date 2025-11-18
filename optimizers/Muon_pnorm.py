@@ -32,7 +32,7 @@ class Muon_pnorm(Optimizer):
                 'lr': lr,
                 'weight_decay': weight_decay,
                 'momentum': momentum
-                'pval': pval
+                
             }]
         else:
             # If parent created param_groups, ensure hyperparams exist
@@ -40,7 +40,7 @@ class Muon_pnorm(Optimizer):
                 group.setdefault('lr', lr)
                 group.setdefault('weight_decay', weight_decay)
                 group.setdefault('momentum', momentum)
-                group.setdefault('pval',pval)
+                
 
         if not hasattr(self, 'state'):
             self.state = {}
