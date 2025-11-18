@@ -230,5 +230,5 @@ class DistDataModel():
 
 		# If we are tracking, return our out_dict at the end of training.
 		if self.track:
-			self.tracker.save_history(self.dataset+output_file,self.optim.COMM)
+			self.tracker.save_history(self.dataset+output_file,comm)
 			return(self.tracker.history)
