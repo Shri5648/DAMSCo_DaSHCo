@@ -34,6 +34,7 @@ class Muon(Optimizer):
 
         self.weight_decay = weight_decay
         self.momentum = momentum
+        self.epoch = 0
         if not hasattr(self, 'param_groups') or len(self.param_groups) == 0:
             self.param_groups = [{
                 'params': params,
