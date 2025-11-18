@@ -14,7 +14,7 @@ def SVD_exact(G: Tensor) -> tuple[Tensor, Tensor, Tensor]:
     return U, S, Vh
 
 class Muon_pnorm(Optimizer):
-    def __init__(self, params, pval, lr=0.05, weight_decay=0.01, momentum=0.95, compressor=NoneCompressor(),device="cpu",devices=[],comm_set=['x'],lr_decay="none",nvlink=False):
+    def __init__(self, params, pval=2.0, lr=0.05, weight_decay=0.01, momentum=0.95, compressor=NoneCompressor(),device="cpu",devices=[],comm_set=['x'],lr_decay="none",nvlink=False):
         print('lr=,weight decay=,momentum=',lr,weight_decay,momentum)
         print(f'pval={pval}')
         # Ensure params is a list
