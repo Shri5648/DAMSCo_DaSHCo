@@ -25,6 +25,7 @@ class Muon_pnorm(Optimizer):
         self.weight_decay = weight_decay
         self.momentum = momentum
         self.epoch = 0
+        self.pval = pval
 
         if not hasattr(self, 'param_groups') or len(self.param_groups) == 0:
             self.param_groups = [{
@@ -32,6 +33,7 @@ class Muon_pnorm(Optimizer):
                 'lr': lr,
                 'weight_decay': weight_decay,
                 'momentum': momentum
+                'pval': pval
                 
             }]
         else:
@@ -40,6 +42,7 @@ class Muon_pnorm(Optimizer):
                 group.setdefault('lr', lr)
                 group.setdefault('weight_decay', weight_decay)
                 group.setdefault('momentum', momentum)
+                group.setdefault('pval', pval)
                 
 
         if not hasattr(self, 'state'):
@@ -106,6 +109,7 @@ class Muon_pnorm(Optimizer):
             'epoch': self.epoch,
             'weight_decay': self.weight_decay,
             'momentum': self.momentum,
+            'pval': self.pval
             'lr': self.lr
             }
         return state
