@@ -3,6 +3,7 @@
 import torch
 import torch.nn.functional as F
 from torch import Tensor
+from src.Compressor import NoneCompressor
 
 @torch.compile
 def SVD_exact(G: Tensor) -> tuple[Tensor, Tensor, Tensor]:
