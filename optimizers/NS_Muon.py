@@ -46,6 +46,9 @@ class Muon(Optimizer):
                 group.setdefault('lr', lr)
                 group.setdefault('weight_decay', weight_decay)
                 group.setdefault('momentum', momentum)
+
+        if not hasattr(self, 'state'):
+            self.state = {}
                 
     @torch.no_grad()
     def step(self):
