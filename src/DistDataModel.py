@@ -202,8 +202,9 @@ class DistDataModel():
 					self.optim.step()
 
 			# Set up a barrier at the end of the epoch.
-			self.optim.COMM.Barrier()
-		
+			comm = self.optim[0].COMM if isinstance(self.optim, list) else self.optim.COMM
+			comm.Barrier()
+
 			losses = torch.zeros(self.epochs)
 			for k in range(self.epochs):
 				losses[k] = loss.item()
