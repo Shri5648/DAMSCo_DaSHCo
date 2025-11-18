@@ -212,9 +212,13 @@ class DistDataModel():
 			if losses_mean < self.best_val_loss:
 				self.best_val_loss = losses_mean
 				if self.epoch % 25==0:
+					if isinstance(self.optim, list):
+						optimizer_state = [opt.state_dict() for opt in self.optim]
+					else:
+						optimizer_state = self.optim.state_dict()
 					checkpoint = {
 						'model': self.model.state_dict(),
-						'optimizer': self.optim.state_dict(),
+						'optimizer': optimizer_state,
 						'iter_num': self.epoch,
 						'best_val_loss': self.best_val_loss
 					}
