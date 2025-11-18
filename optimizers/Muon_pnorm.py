@@ -108,7 +108,7 @@ class Muon_pnorm(Optimizer):
             'epoch': self.epoch,
             'weight_decay': self.weight_decay,
             'momentum': self.momentum,
-            'pval': self.pval
+            'pval': self.pval,
             'lr': self.lr
             }
         return state
