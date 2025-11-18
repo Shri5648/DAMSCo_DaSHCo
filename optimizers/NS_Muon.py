@@ -35,12 +35,15 @@ class Muon(Optimizer):
         self.weight_decay = weight_decay
         self.momentum = momentum
         self.epoch = 0
+        self.pval = pval
+        
         if not hasattr(self, 'param_groups') or len(self.param_groups) == 0:
             self.param_groups = [{
                 'params': params,
                 'lr': lr,
                 'weight_decay': weight_decay,
                 'momentum': momentum
+                'pval': pval
             }]
         else:
             # If parent created param_groups, ensure hyperparams exist
@@ -48,6 +51,7 @@ class Muon(Optimizer):
                 group.setdefault('lr', lr)
                 group.setdefault('weight_decay', weight_decay)
                 group.setdefault('momentum', momentum)
+                group.setdefault('pval', pval)
 
         if not hasattr(self, 'state'):
             self.state = {}
@@ -85,6 +89,7 @@ class Muon(Optimizer):
             'steps': self.steps,
             'epoch': self.epoch,
             'weight_decay': self.weight_decay,
+            'pval': self.pval,
             'momentum': self.momentum,
             'lr': self.lr
         }
