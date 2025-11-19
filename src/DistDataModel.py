@@ -238,7 +238,7 @@ class DistDataModel():
 					
 		# Write to Matlab file
 		if self.rank==0:
-			#matlab_file_name='ES3norm_NanoGPTLossResults_zerorank.m'
+			#matlab_file_name='ES15tenthsnorm_NanoGPTLossResults_zerorank.m'
 			matlab_file_name='NSnorm_NanoGPTLossResults_zerorank.m'
 			with open(matlab_file_name, "a") as f:
 				f.write("%File written by DistDataModel.py\n")
