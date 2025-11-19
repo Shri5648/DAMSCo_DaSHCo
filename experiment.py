@@ -35,7 +35,6 @@ def main():
     if args.compress.startswith("topk"):
         args.comm_set = [c + "_bar" for c in args.comm_set]
 
-	training_start_time=0
 	model = DistDataModel(
         model=args.model,
         dataset=args.dataset,
@@ -60,6 +59,7 @@ def main():
             f"{args.epochs}")
 
     print(f"[INFO] {name} -> Initializing model…", flush=True)
+	training_start_time=0
 	training_start_time = time.time()
     model.train(verbose=True, output_file=name)
 	training_end_time = time.time()
