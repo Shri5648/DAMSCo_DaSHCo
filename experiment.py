@@ -31,8 +31,7 @@ def parse_args():
 
 def main():
     args = parse_args()
-
-    # If using top-k, change comm_set to bar-variants
+	# If using top-k, change comm_set to bar-variants
     if args.compress.startswith("topk"):
         args.comm_set = [c + "_bar" for c in args.comm_set]
 	
