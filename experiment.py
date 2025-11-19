@@ -61,7 +61,12 @@ def main():
 
     print(f"[INFO] {name} -> Initializing model…", flush=True)
     training_start_time=0
+	training_end_time=0
+    training_time=0
+    training_start_time=time.time()
     model.train(verbose=True, output_file=name)
+    training_end_time=time.time()
+    training_time=training_end_time-training_start_time    
     print("[INFO] Training finished.", flush=True)
 
 if __name__ == "__main__":
