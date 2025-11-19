@@ -68,7 +68,7 @@ def main():
     training_end_time=time.time()
     training_time=training_end_time-training_start_time    
     print("[INFO] Training finished.", flush=True)
-    matlab_file_name=
+    matlab_file_name='ES2norm_NanoGPTLossResults_zerorank.m'
     with open(matlab_file_name, "w") as f:
     f.write(f"Total training time for {self.epochs} epochs: {total_training_time:.2f};\n")
 
