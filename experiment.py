@@ -60,7 +60,7 @@ def main():
             f"{args.epochs}")
 
     print(f"[INFO] {name} -> Initializing model…", flush=True)
-	training_start_time=0
+    training_start_time=0
     model.train(verbose=True, output_file=name)
     print("[INFO] Training finished.", flush=True)
 
