@@ -1,6 +1,7 @@
 import argparse
 from src.DistDataModel import DistDataModel
 from src.Compressor import *
+import time
 
 compressor_map = {'none': NoneCompressor(),
 				   'topk30': TopKCompressor(0.3),
