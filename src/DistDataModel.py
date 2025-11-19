@@ -174,7 +174,6 @@ class DistDataModel():
 			if self.track:
 				test_loss,test_acc,test_time = self.tracker.evaluate(loader="test")
 				if isinstance(self.optim, list):
-					print("\n Your optim is a list now.")
 					cons_error = 0.0  # Placeholder for dual optimizer
 				else:
 					cons_error = self.tracker.compute_cons_error(self.comm_set,self.optim)
@@ -206,6 +205,7 @@ class DistDataModel():
 				# Perform step.
 				if isinstance(self.optim, list):
 					for opt in self.optim:
+						print("\n In right optimizer loop")
 						opt.step()
 				else:
 					self.optim.step()
