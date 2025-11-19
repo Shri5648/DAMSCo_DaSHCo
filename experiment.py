@@ -36,9 +36,9 @@ def main():
     if args.compress.startswith("topk"):
         args.comm_set = [c + "_bar" for c in args.comm_set]
 
-	training_start_time = 0
-	training_end_time = 0
-	total_training_time = 0
+	training_start_time=0
+	training_end_time=0
+	total_training_time=0
 
     model = DistDataModel(
         model=args.model,
