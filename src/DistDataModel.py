@@ -177,7 +177,9 @@ class DistDataModel():
 				train_loss,train_acc,train_time = self.tracker.evaluate(loader="train")
 				if verbose:
 					if self.model_name=="nanoGPT":
-						print("{}\t{}\t{}\t{}\t{}\t{}\t{}".format(self.epoch-1,self.rank,test_loss,train_loss,cons_error,test_time,train_time))
+						#print("{}\t{}\t{}\t{}\t{}\t{}\t{}".format(self.epoch-1,self.rank,test_loss,train_loss,cons_error,test_time,train_time))
+						print("{}\t{}\t{}\t{}".format(self.epoch-1,self.rank,test_loss,train_loss))
+						
 					else:
 						print("{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}".format(self.epoch-1,self.rank,test_acc,test_loss,train_acc,train_loss,cons_error,test_time,train_time))
 			loss = None
