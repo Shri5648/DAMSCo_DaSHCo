@@ -19,8 +19,8 @@ class Muon_qnorm(Optimizer):
         # Ensure params is a list
         if not isinstance(params, list):
             params = list(params)
-
-        super().__init__(params,compressor=compressor,optim_name=self.optim_name,comm_set=comm_set,device=device,topology="ring",devices=devices, nvlink=nvlink,lr_decay=lr_decay,lr=lr)
+        # Change optim name for different optimizer
+        super().__init__(params,compressor=compressor,optim_name="ESMuonqnorm",comm_set=comm_set,device=device,topology="ring",devices=devices, nvlink=nvlink,lr_decay=lr_decay,lr=lr)
         self.weight_decay = weight_decay
         self.momentum = momentum
         self.epoch = 0
