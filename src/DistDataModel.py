@@ -122,7 +122,7 @@ class DistDataModel():
 				optim1 = get_optimizer(optimizer_name,hidden_matrix_params, compressor=compressor, \
 							  comm_set=self.comm_set, device=self.device, \
 							  devices=devices, nvlink=nvlink, lr_decay=self.lr_decay,lr=self.lr)
-				optim2 = torch.optim.SGD(other_params, lr=0.1, momentum=0.9, weight_decay=1e-4)
+				optim2 = torch.optim.AdamW(other_params, lr=0.002, betas=(0.9, 0.99), eps=1e-8, weight_decay=0.05)
 				self.optim=[optim1, optim2]
 			else:
 				self.optim = get_optimizer(optimizer_name,self.model, compressor=compressor, \
