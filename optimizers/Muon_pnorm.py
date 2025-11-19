@@ -21,7 +21,7 @@ class Muon_pnorm(Optimizer):
         if not isinstance(params, list):
             params = list(params)
         # Change optim name for different optimizer
-        super().__init__(params,compressor=compressor,optim_name="NSMuon",comm_set=comm_set,device=device,topology="ring",devices=devices, nvlink=nvlink,lr_decay=lr_decay,lr=lr)
+        super().__init__(params,compressor=compressor,optim_name="ESMuonpnorm",comm_set=comm_set,device=device,topology="ring",devices=devices, nvlink=nvlink,lr_decay=lr_decay,lr=lr)
         self.weight_decay = weight_decay
         self.momentum = momentum
         self.epoch = 0
@@ -55,7 +55,7 @@ class Muon_pnorm(Optimizer):
 
     @torch.no_grad()
     def step(self):
-        print("\n Hey!! You are in step function of Muon p norm")
+        #print("\n Hey!! You are in step function of Muon p norm")
         for group in self.param_groups:
             pval=group['pval']
             for p in group['params']:
