@@ -242,7 +242,7 @@ class DistDataModel():
 			with open(matlab_file_name, "w") as f:
 				f.write("%File written by DistDataModel.py\n")
 				f.write("%Training results\n") 
-				f.write(f"Total training time for {args.epochs} epochs: {total_training_time:.2f};\n")
+				f.write(f"Total training time for {self.epochs} epochs: {total_training_time:.2f};\n")
 				f.write(f"train_prec1_history={train_prec1_history};\n" f"val_prec1_history={val_prec1_history};\n" f"train_loss_history  = {train_loss_history};\n" f"val_loss_history= {val_loss_history};\n")
 		# If we are tracking, return our out_dict at the end of training.
 		if self.track:
