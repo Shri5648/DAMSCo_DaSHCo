@@ -239,7 +239,7 @@ class DistDataModel():
 		# Write to Matlab file
 		if self.rank==0:
 			matlab_file_name='ES2norm_NanoGPTLossResults_zerorank.m'
-			with open(matlab_file_name, "w") as f:
+			with open(matlab_file_name, "a") as f:
 				f.write("%File written by DistDataModel.py\n")
 				f.write("%Training results\n") 
 				f.write(f"train_loss_history  = {train_history};\n" f"val_loss_history= {test_history};\n")
