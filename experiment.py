@@ -31,11 +31,12 @@ def parse_args():
 
 def main():
     args = parse_args()
-	# If using top-k, change comm_set to bar-variants
+
+    # If using top-k, change comm_set to bar-variants
     if args.compress.startswith("topk"):
         args.comm_set = [c + "_bar" for c in args.comm_set]
 
-	model = DistDataModel(
+    model = DistDataModel(
         model=args.model,
         dataset=args.dataset,
         topology=args.topology,
@@ -60,11 +61,7 @@ def main():
 
     print(f"[INFO] {name} -> Initializing model…", flush=True)
 	training_start_time=0
-	training_start_time = time.time()
     model.train(verbose=True, output_file=name)
-	training_end_time = time.time()
-	total_training_time = training_end_time - training_start_time
-	print('Total training time:',total_training_time)
     print("[INFO] Training finished.", flush=True)
 
 if __name__ == "__main__":
