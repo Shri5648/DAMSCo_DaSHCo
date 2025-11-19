@@ -152,6 +152,9 @@ class DistDataModel():
 	Performs training for the defined number of epochs.
 	'''
 	def train(self,output_file="default",verbose=False):
+		if self.rank==0:
+			train_history=[]
+			test_history=[]
 
 		if self.rank == 0:
 			if self.model_name=="nanoGPT":
@@ -178,7 +181,10 @@ class DistDataModel():
 				if verbose:
 					if self.model_name=="nanoGPT":
 						#print("{}\t{}\t{}\t{}\t{}\t{}\t{}".format(self.epoch-1,self.rank,test_loss,train_loss,cons_error,test_time,train_time))
-						print("{}\t{}\t{}\t{}".format(self.epoch-1,self.rank,test_loss,train_loss))
+						if (self.rank==0):
+							print("{}\t{}\t{}\t{}".format(self.epoch-1,self.rank,test_loss,train_loss))
+							train_history.append(train_loss)	
+							test_history.append(test_loss)
 						
 					else:
 						print("{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}".format(self.epoch-1,self.rank,test_acc,test_loss,train_acc,train_loss,cons_error,test_time,train_time))
@@ -229,7 +235,15 @@ class DistDataModel():
 					os.makedirs(self.model.out_dir, exist_ok=True)
 					torch.save(checkpoint, os.path.join(self.model.out_dir, 'chk_'+output_file+'_Epoch_'+str(self.epoch)+'.pt'))
 					print(f"Checkpoint saved at {self.model.out_dir}")
-
+					
+		# Write to Matlab file
+		if self.rank==0:
+			matlab_file_name='{self.optimizer_name}_NanoGPTLossResults_zerorank.m'
+			with open(matlab_file_name, "w") as f:
+				f.write("%File written by DistDataModel.py\n")
+				f.write("%Training results\n") 
+				f.write(f"Total training time for {args.epochs} epochs: {total_training_time:.2f};\n")
+				f.write(f"train_prec1_history={train_prec1_history};\n" f"val_prec1_history={val_prec1_history};\n" f"train_loss_history  = {train_loss_history};\n" f"val_loss_history= {val_loss_history};\n")
 		# If we are tracking, return our out_dict at the end of training.
 		if self.track:
 			self.tracker.save_history(self.dataset+output_file,comm)
