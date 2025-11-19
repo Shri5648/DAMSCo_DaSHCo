@@ -205,7 +205,7 @@ class DistDataModel():
 				# Perform step.
 				if isinstance(self.optim, list):
 					for opt in self.optim:
-						print("\n In right optimizer loop")
+						#print("\n In right optimizer loop")
 						opt.step()
 				else:
 					self.optim.step()
