@@ -242,7 +242,7 @@ class DistDataModel():
 			with open(matlab_file_name, "w") as f:
 				f.write("%File written by DistDataModel.py\n")
 				f.write("%Training results\n") 
-				f.write(f"train_prec1_history={train_prec1_history};\n" f"val_prec1_history={val_prec1_history};\n" f"train_loss_history  = {train_loss_history};\n" f"val_loss_history= {val_loss_history};\n")
+				f.write(f"train_loss_history  = {train_history};\n" f"val_loss_history= {test_history};\n")
 		# If we are tracking, return our out_dict at the end of training.
 		if self.track:
 			self.tracker.save_history(self.dataset+output_file,comm)
