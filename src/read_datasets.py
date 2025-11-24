@@ -116,4 +116,87 @@ def read_datasets(dataset_name, data_dir=None):
             pickle.dump(meta, f)
 
         return train_dataset, test_dataset
+
+    if dataset_name == "FineWeb":
+        """
+        Load FineWeb-Edu dataset from pre-tokenized shards.
+        Assumes fineweb.py has already been run to create the shards.
+        """
+        # Path to the tokenized shards directory
+        shard_dir = os.path.join(data_dir, 'edu_fineweb10B')
+        
+        # Check if data has been prepared
+        if not os.path.exists(shard_dir):
+            raise FileNotFoundError(
+                f"FineWeb shards not found at {shard_dir}\n"
+                f"Please run: python data/FineWeb/fineweb.py first to download and tokenize the data."
+            )
+        
+        # Find all shard files
+        train_shards = sorted(glob.glob(os.path.join(shard_dir, 'edufineweb_train_*.npy')))
+        val_shards = sorted(glob.glob(os.path.join(shard_dir, 'edufineweb_val_*.npy')))
+        
+        if len(train_shards) == 0 or len(val_shards) == 0:
+            raise FileNotFoundError(
+                f"No shard files found in {shard_dir}\n"
+                f"Expected files like: edufineweb_train_000001.npy, edufineweb_val_000000.npy"
+            )
+        
+        print(f"Found {len(train_shards)} training shards and {len(val_shards)} validation shards")
+        
+        # Load and concatenate all shards for training and validation
+        # Note: For very large datasets, you might want to load shards on-demand instead
+        train_data_list = []
+        for shard_path in train_shards:
+            shard_data = np.load(shard_path)
+            train_data_list.append(shard_data)
+        train_data_np = np.concatenate(train_data_list)
+        
+        val_data_list = []
+        for shard_path in val_shards:
+            shard_data = np.load(shard_path)
+            val_data_list.append(shard_data)
+        val_data_np = np.concatenate(val_data_list)
+        
+        print(f"Loaded {len(train_data_np):,} training tokens and {len(val_data_np):,} validation tokens")
+        
+        # Create sequences with block_size context length
+        block_size = 1024  # Standard for FineWeb (BPE tokens, not characters)
+        
+        # Training sequences
+        train_sequences = []
+        train_targets = []
+        for i in range(0, len(train_data_np) - block_size, block_size):
+            train_sequences.append(train_data_np[i:i+block_size])
+            train_targets.append(train_data_np[i+1:i+1+block_size])
+        
+        # Validation sequences
+        val_sequences = []
+        val_targets = []
+        for i in range(0, len(val_data_np) - block_size, block_size):
+            val_sequences.append(val_data_np[i:i+block_size])
+            val_targets.append(val_data_np[i+1:i+1+block_size])
+        
+        # Convert to tensors
+        train_data = torch.tensor(np.array(train_sequences), dtype=torch.long)
+        train_targets = torch.tensor(np.array(train_targets), dtype=torch.long)
+        test_data = torch.tensor(np.array(val_sequences), dtype=torch.long)
+        test_targets = torch.tensor(np.array(val_targets), dtype=torch.long)
+        
+        print(f"Created {len(train_data):,} training examples and {len(test_data):,} validation examples")
+        
+        # Wrap in TensorDataset
+        train_dataset = TensorDataset(train_data, train_targets)
+        test_dataset = TensorDataset(test_data, test_targets)
+        
+        # Save meta information (GPT-2 BPE tokenizer)
+        meta = {
+            'vocab_size': 50304,  # GPT-2 vocab size (50257) rounded up for efficiency
+            'tokenizer': 'gpt2_bpe',  # Using tiktoken GPT-2 BPE
+            'block_size': block_size,
+        }
+        with open(os.path.join(data_dir, 'meta.pkl'), 'wb') as f:
+            pickle.dump(meta, f)
+        
+        return train_dataset, test_dataset 
      
