@@ -196,7 +196,7 @@ def read_datasets(dataset_name, data_dir=None):
             'tokenizer': 'gpt2_bpe',  # Using tiktoken GPT-2 BPE
             'block_size': block_size,
         }
-        with open(os.path.join(data_dir, 'meta.pkl'), 'wb') as f:
+        with open(os.path.join(shard_dir, 'meta.pkl'), 'wb') as f:
             pickle.dump(meta, f)
         
         return train_dataset, test_dataset 
