@@ -7,6 +7,7 @@ import os
 import requests
 import glob
 from torch.utils.data import TensorDataset
+from torch.utils.data import DataLoader
 
 def read_datasets(dataset_name, data_dir=None):
     if dataset_name in ["CIFAR10", "FashionMNIST", "Shakespeare","fineweb"]:
@@ -123,6 +124,21 @@ def read_datasets(dataset_name, data_dir=None):
         Load fineweb-Edu dataset from pre-tokenized shards.
         Assumes fineweb.py has already been run to create the shards.
         """
+
+        class ShardedIterableDataset(torch.utils.data.IterableDataset):
+            def __init__(self, shard_paths, block_size):
+                super().__init__()
+                self.shard_paths = shard_paths
+                self.block_size = block_size
+
+            def __iter__(self):
+                for shard_path in self.shard_paths:
+                    arr = np.load(shard_path, mmap_mode='r')  # On-demand loading
+                    for i in range(0, len(arr) - self.block_size, self.block_size):
+                        input_seq = arr[i:i+self.block_size]
+                        target_seq = arr[i+1:i+1+self.block_size]
+                        yield torch.tensor(input_seq, dtype=torch.long), torch.tensor(target_seq, dtype=torch.long)
+        
         # Path to the tokenized shards directory
         shard_dir = os.path.join(os.getcwd(), 'data', 'edu_fineweb10B')
         
@@ -145,51 +161,12 @@ def read_datasets(dataset_name, data_dir=None):
         
         print(f"Found {len(train_shards)} training shards and {len(val_shards)} validation shards")
         
-        # Load and concatenate all shards for training and validation
-        # Note: For very large datasets, you might want to load shards on-demand instead
-        train_data_list = []
-        for shard_path in train_shards:
-            shard_data = np.load(shard_path)
-            train_data_list.append(shard_data)
-        train_data_np = np.concatenate(train_data_list)
-        
-        val_data_list = []
-        for shard_path in val_shards:
-            shard_data = np.load(shard_path)
-            val_data_list.append(shard_data)
-        val_data_np = np.concatenate(val_data_list)
-        
-        print(f"Loaded {len(train_data_np):,} training tokens and {len(val_data_np):,} validation tokens")
-        
-        # Create sequences with block_size context length
-        block_size = 1024  # Standard for fineweb (BPE tokens, not characters)
-        
-        # Training sequences
-        train_sequences = []
-        train_targets = []
-        for i in range(0, len(train_data_np) - block_size, block_size):
-            train_sequences.append(train_data_np[i:i+block_size])
-            train_targets.append(train_data_np[i+1:i+1+block_size])
-        
-        # Validation sequences
-        val_sequences = []
-        val_targets = []
-        for i in range(0, len(val_data_np) - block_size, block_size):
-            val_sequences.append(val_data_np[i:i+block_size])
-            val_targets.append(val_data_np[i+1:i+1+block_size])
-        
-        # Convert to tensors
-        train_data = torch.tensor(np.array(train_sequences), dtype=torch.long)
-        train_targets = torch.tensor(np.array(train_targets), dtype=torch.long)
-        test_data = torch.tensor(np.array(val_sequences), dtype=torch.long)
-        test_targets = torch.tensor(np.array(val_targets), dtype=torch.long)
-        
-        print(f"Created {len(train_data):,} training examples and {len(test_data):,} validation examples")
-        
-        # Wrap in TensorDataset
-        train_dataset = TensorDataset(train_data, train_targets)
-        test_dataset = TensorDataset(test_data, test_targets)
-        
+        block_size = 1024
+
+        # Use streaming datasets for train/validation:
+        train_dataset = ShardedIterableDataset(train_shards, block_size)
+        test_dataset = ShardedIterableDataset(val_shards, block_size)
+
         # Save meta information (GPT-2 BPE tokenizer)
         meta = {
             'vocab_size': 50304,  # GPT-2 vocab size (50257) rounded up for efficiency
@@ -199,5 +176,5 @@ def read_datasets(dataset_name, data_dir=None):
         with open(os.path.join(shard_dir, 'meta.pkl'), 'wb') as f:
             pickle.dump(meta, f)
         
-        return train_dataset, test_dataset 
+        return train_dataset, test_dataset
      
