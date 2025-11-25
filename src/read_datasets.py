@@ -5,6 +5,7 @@ import torchvision.datasets
 import torchvision.transforms as transforms
 import os
 import requests
+import glob
 from torch.utils.data import TensorDataset
 
 def read_datasets(dataset_name, data_dir=None):
@@ -123,7 +124,7 @@ def read_datasets(dataset_name, data_dir=None):
         Assumes fineweb.py has already been run to create the shards.
         """
         # Path to the tokenized shards directory
-        shard_dir = os.path.join(data_dir, 'edu_fineweb10B')
+        shard_dir = os.path.join(os.getcwd(), 'data', 'edu_fineweb10B')
         
         # Check if data has been prepared
         if not os.path.exists(shard_dir):
