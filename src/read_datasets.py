@@ -117,29 +117,29 @@ def read_datasets(dataset_name, data_dir=None):
 
         return train_dataset, test_dataset
 
-    if dataset_name == "FineWeb":
+    if dataset_name == "Fineweb":
         """
-        Load FineWeb-Edu dataset from pre-tokenized shards.
-        Assumes fineweb.py has already been run to create the shards.
+        Load Fineweb-Edu dataset from pre-tokenized shards.
+        Assumes Fineweb.py has already been run to create the shards.
         """
         # Path to the tokenized shards directory
-        shard_dir = os.path.join(data_dir, 'edu_fineweb10B')
+        shard_dir = os.path.join(data_dir, 'edu_Fineweb10B')
         
         # Check if data has been prepared
         if not os.path.exists(shard_dir):
             raise FileNotFoundError(
-                f"FineWeb shards not found at {shard_dir}\n"
-                f"Please run: python data/FineWeb/fineweb.py first to download and tokenize the data."
+                f"Fineweb shards not found at {shard_dir}\n"
+                f"Please run: python data/Fineweb/Fineweb.py first to download and tokenize the data."
             )
         
         # Find all shard files
-        train_shards = sorted(glob.glob(os.path.join(shard_dir, 'edufineweb_train_*.npy')))
-        val_shards = sorted(glob.glob(os.path.join(shard_dir, 'edufineweb_val_*.npy')))
+        train_shards = sorted(glob.glob(os.path.join(shard_dir, 'eduFineweb_train_*.npy')))
+        val_shards = sorted(glob.glob(os.path.join(shard_dir, 'eduFineweb_val_*.npy')))
         
         if len(train_shards) == 0 or len(val_shards) == 0:
             raise FileNotFoundError(
                 f"No shard files found in {shard_dir}\n"
-                f"Expected files like: edufineweb_train_000001.npy, edufineweb_val_000000.npy"
+                f"Expected files like: eduFineweb_train_000001.npy, eduFineweb_val_000000.npy"
             )
         
         print(f"Found {len(train_shards)} training shards and {len(val_shards)} validation shards")
@@ -161,7 +161,7 @@ def read_datasets(dataset_name, data_dir=None):
         print(f"Loaded {len(train_data_np):,} training tokens and {len(val_data_np):,} validation tokens")
         
         # Create sequences with block_size context length
-        block_size = 1024  # Standard for FineWeb (BPE tokens, not characters)
+        block_size = 1024  # Standard for Fineweb (BPE tokens, not characters)
         
         # Training sequences
         train_sequences = []
