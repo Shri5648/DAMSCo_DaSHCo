@@ -8,7 +8,7 @@ import requests
 from torch.utils.data import TensorDataset
 
 def read_datasets(dataset_name, data_dir=None):
-    if dataset_name in ["CIFAR10", "FashionMNIST", "Shakespeare","Fineweb"]:
+    if dataset_name in ["CIFAR10", "FashionMNIST", "Shakespeare","fineweb"]:
         pass
     else:
         print('New dataset, readdatasets need adjustment')
