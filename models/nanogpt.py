@@ -16,10 +16,11 @@ import torch
 
 __all__=['nanoGPT']
 
-exec(open('./config/train_shakespeare_char.py').read()) # overrides from your config file
+#exec(open('./config/train_shakespeare_char.py').read()) # overrides from your config file. Just for Shakespeare dataset
 
 # attempt to derive vocab_size from the dataset
-data_dir = './data/Shakespeare' # to be changed everytime if used a different setting
+#data_dir = './data/Shakespeare' # to be changed everytime if used a different setting.  Just for Shakespeare dataset.
+data_dir = './data/edu_fineweb10B'
 meta_path = os.path.join(data_dir, 'meta.pkl')
 meta_vocab_size = None
 if os.path.exists(meta_path):
