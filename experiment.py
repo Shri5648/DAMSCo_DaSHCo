@@ -72,7 +72,7 @@ def main():
     matlab_file_name='ESMuon3norm_cosinelr_0.03_NanoGPT_200_LossResults_zerorank.m'
     #matlab_file_name='NSMuon_cosinelr_0.03_NanoGPT_200_LossResults_zerorank.m'
     with open(matlab_file_name, "a") as f:
-       f.write(f"Total training time for {args.epochs} epochs: {training_time:.2f};\n")
+       f.write(f"%Total training time for {args.epochs} epochs: {training_time:.2f};\n")
 
 if __name__ == "__main__":
     main()
