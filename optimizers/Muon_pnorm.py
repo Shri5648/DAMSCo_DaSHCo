@@ -12,9 +12,9 @@ def SVD_exact(G: Tensor) -> tuple[Tensor, Tensor, Tensor]:
     U, S, Vh = torch.linalg.svd(G, full_matrices=False)
     #print(f'Singular Value Matrix={S}')
     return U, S, Vh
-
+# weight decay=0.01 default for all except p=3 norm.
 class Muon_pnorm(Optimizer):
-    def __init__(self, params, pval=3.0, lr=0.05, weight_decay=0.01, momentum=0.95, compressor=NoneCompressor(),device="cpu",devices=[],comm_set=['x'],lr_decay="none",nvlink=False):
+    def __init__(self, params, pval=3.0, lr=0.05, weight_decay=1.2, momentum=0.95, compressor=NoneCompressor(),device="cpu",devices=[],comm_set=['x'],lr_decay="none",nvlink=False):
         print('lr=,weight decay=,momentum=',lr,weight_decay,momentum)
         print(f'pval={pval}')
         # Ensure params is a list
