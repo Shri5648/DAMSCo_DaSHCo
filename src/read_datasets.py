@@ -9,6 +9,35 @@ import glob
 from torch.utils.data import TensorDataset
 from torch.utils.data import DataLoader
 
+class ShardedIterableDataset(torch.utils.data.IterableDataset):
+            def __init__(self, shard_paths, block_size):
+                super().__init__()
+                self.shard_paths = shard_paths
+                self.block_size = block_size
+
+            def __len__(self):
+                """
+                Estimate total number of sequences across all shards.
+                This is computed once and cached.
+                """
+                if self._length is None:
+                    total_tokens = 0
+                    for shard_path in self.shard_paths:
+                    # Load just the shape, not the data
+                        arr = np.load(shard_path, mmap_mode='r')
+                        total_tokens += len(arr)
+                    # Number of sequences = total_tokens // block_size
+                    self._length = total_tokens // self.block_size
+                return self._length
+
+            def __iter__(self):
+                for shard_path in self.shard_paths:
+                    arr = np.load(shard_path, mmap_mode='r')  # On-demand loading
+                    for i in range(0, len(arr) - self.block_size, self.block_size):
+                        input_seq = arr[i:i+self.block_size]
+                        target_seq = arr[i+1:i+1+self.block_size]
+                        yield torch.tensor(input_seq, dtype=torch.long), torch.tensor(target_seq, dtype=torch.long)
+
 def read_datasets(dataset_name, data_dir=None):
     if dataset_name in ["CIFAR10", "FashionMNIST", "Shakespeare","fineweb"]:
         pass
@@ -124,36 +153,7 @@ def read_datasets(dataset_name, data_dir=None):
         Load fineweb-Edu dataset from pre-tokenized shards.
         Assumes fineweb.py has already been run to create the shards.
         """
-
-        class ShardedIterableDataset(torch.utils.data.IterableDataset):
-            def __init__(self, shard_paths, block_size):
-                super().__init__()
-                self.shard_paths = shard_paths
-                self.block_size = block_size
-
-            def __len__(self):
-                """
-                Estimate total number of sequences across all shards.
-                This is computed once and cached.
-                """
-                if self._length is None:
-                    total_tokens = 0
-                    for shard_path in self.shard_paths:
-                    # Load just the shape, not the data
-                        arr = np.load(shard_path, mmap_mode='r')
-                        total_tokens += len(arr)
-                    # Number of sequences = total_tokens // block_size
-                    self._length = total_tokens // self.block_size
-                return self._length
-
-            def __iter__(self):
-                for shard_path in self.shard_paths:
-                    arr = np.load(shard_path, mmap_mode='r')  # On-demand loading
-                    for i in range(0, len(arr) - self.block_size, self.block_size):
-                        input_seq = arr[i:i+self.block_size]
-                        target_seq = arr[i+1:i+1+self.block_size]
-                        yield torch.tensor(input_seq, dtype=torch.long), torch.tensor(target_seq, dtype=torch.long)
-        
+      
         # Path to the tokenized shards directory
         shard_dir = os.path.join(os.getcwd(), 'data', 'edu_fineweb10B')
         
