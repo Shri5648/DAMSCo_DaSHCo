@@ -132,10 +132,10 @@ def read_datasets(dataset_name, data_dir=None):
                 self.block_size = block_size
 
             def __len__(self):
-            """
-            Estimate total number of sequences across all shards.
-            This is computed once and cached.
-            """
+                """
+                Estimate total number of sequences across all shards.
+                This is computed once and cached.
+                """
                 if self._length is None:
                     total_tokens = 0
                     for shard_path in self.shard_paths:
