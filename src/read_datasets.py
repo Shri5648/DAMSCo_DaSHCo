@@ -131,6 +131,21 @@ def read_datasets(dataset_name, data_dir=None):
                 self.shard_paths = shard_paths
                 self.block_size = block_size
 
+            def __len__(self):
+            """
+            Estimate total number of sequences across all shards.
+            This is computed once and cached.
+            """
+                if self._length is None:
+                    total_tokens = 0
+                    for shard_path in self.shard_paths:
+                    # Load just the shape, not the data
+                        arr = np.load(shard_path, mmap_mode='r')
+                        total_tokens += len(arr)
+                    # Number of sequences = total_tokens // block_size
+                    self._length = total_tokens // self.block_size
+                return self._length
+
             def __iter__(self):
                 for shard_path in self.shard_paths:
                     arr = np.load(shard_path, mmap_mode='r')  # On-demand loading
