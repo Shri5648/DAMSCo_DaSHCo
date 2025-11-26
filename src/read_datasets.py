@@ -14,6 +14,7 @@ class ShardedIterableDataset(torch.utils.data.IterableDataset):
                 super().__init__()
                 self.shard_paths = shard_paths
                 self.block_size = block_size
+                self._length = None  # Cache for length
 
             def __len__(self):
                 """
