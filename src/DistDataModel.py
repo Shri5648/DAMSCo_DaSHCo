@@ -139,7 +139,10 @@ class DistDataModel():
 				optim1 = get_optimizer(optimizer_name,hidden_matrix_params, compressor=compressor, \
 							  comm_set=self.comm_set, device=self.device, \
 							  devices=devices, nvlink=nvlink, lr_decay=self.lr_decay,lr=self.lr)
-				optim2 = torch.optim.AdamW(other_params, lr=0.002, betas=(0.9, 0.99), eps=1e-8, weight_decay=0.05)
+				
+				#optim2 = torch.optim.AdamW(other_params, lr=0.002, betas=(0.9, 0.99), eps=1e-8, weight_decay=0.05)
+				# Below Optim 2 Only for NSMuon
+				optim2 = torch.optim.AdamW(other_params, lr=0.008, betas=(0.65, 0.95), eps=1e-8, weight_decay=0.0)				
 				self.optim=[optim1, optim2]
 			else:
 				self.optim = get_optimizer(optimizer_name,self.model, compressor=compressor, \
