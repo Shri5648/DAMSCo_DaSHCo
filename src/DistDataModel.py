@@ -93,9 +93,25 @@ class DistDataModel():
 		# Set our Sampler.
 		sampler = SRS(idx)
 
-		# Now we define our loaders based on this.
-		self.train_loader = DL(self.train_dataset, batch_size=self.batch_size, sampler=sampler, drop_last=True)
-		self.test_loader = DL(self.test_dataset, batch_size=1000, shuffle=False)
+		if isinstance(self.train_dataset, IterableDataset):
+    		# For IterableDataset: DON'T use sampler
+			self.train_loader = DL(
+			self.train_dataset, 
+			batch_size=self.batch_size, 
+			drop_last=True
+			# NO sampler parameter!
+    		)
+			self.test_loader = DL(
+			self.test_dataset,
+			batch_size=self.batch_size,
+			drop_last=True
+			# NO sampler parameter!
+			)
+
+		else:
+			# Now we define our loaders based on this.
+			self.train_loader = DL(self.train_dataset, batch_size=self.batch_size, sampler=sampler, drop_last=True)
+			self.test_loader = DL(self.test_dataset, batch_size=1000, shuffle=False)
 
 	'''
 	Sets our optimizer based on an input string.
