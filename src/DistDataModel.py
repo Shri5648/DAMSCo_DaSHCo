@@ -259,7 +259,7 @@ class DistDataModel():
 					
 		# Write to Matlab file
 		if self.rank==0:
-			matlab_file_name='ESMuon3norm_cosinelr_0.03_NanoGPT_200_LossResults_zerorank.m'
+			matlab_file_name= 'ESMuon1norm_cosinelr_0.03_NanoGPT_650_LossResults_zerorank.m'
 			#matlab_file_name= 'NSMuon_cosinelr_0.03_NanoGPT_200_LossResults_zerorank.m'
 			with open(matlab_file_name, "a") as f:
 				f.write("%File written by DistDataModel.py\n")
