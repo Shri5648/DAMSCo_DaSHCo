@@ -141,7 +141,7 @@ class DistDataModel():
 							  devices=devices, nvlink=nvlink, lr_decay=self.lr_decay,lr=self.lr)
 				
 				# optim2 = torch.optim.AdamW(other_params, lr=0.002, betas=(0.9, 0.99), eps=1e-8, weight_decay=0.05)
-				# Below Optim 2 Only for NSMuon. Actually, higher lr for AdamW gives better results.
+				# Below Optim 2 Only for NSMuon. Actually, higher lr for AdamW gives better results. Mostly use below choice for AdamW.
 				optim2 = torch.optim.AdamW(other_params, lr=0.008, betas=(0.65, 0.95), eps=1e-8, weight_decay=0.0)				
 				self.optim=[optim1, optim2]
 			else:
