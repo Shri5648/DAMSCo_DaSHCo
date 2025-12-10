@@ -7,6 +7,9 @@ https://github.com/openai/gpt-2/blob/master/src/model.py
 https://github.com/huggingface/transformers/blob/main/src/transformers/models/gpt2/modeling_gpt2.py
 
 3) https://github.com/karpathy/nanoGPT/blob/master/
+
+To switch from Fineweb/Shakespearan datasets: Comment/Uncomment data_dir = './data/edu_fineweb10B' and comment/uncomment 
+exec(open('./config/train_fineweb_config.py').read()).
 """
 
 from .gpt import GPT, GPTConfig
@@ -21,7 +24,7 @@ exec(open('./config/train_fineweb_config.py').read()) # Just for fineweb dataset
 
 # attempt to derive vocab_size from the dataset
 #data_dir = './data/Shakespeare' # to be changed everytime if used a different setting.  Just for Shakespeare dataset.
-data_dir = './data/edu_fineweb10B'
+data_dir = './data/edu_fineweb10B' # Just for fineweb dataset.
 meta_path = os.path.join(data_dir, 'meta.pkl')
 meta_vocab_size = None
 if os.path.exists(meta_path):
