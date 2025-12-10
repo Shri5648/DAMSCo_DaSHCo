@@ -69,8 +69,9 @@ def main():
     training_end_time=time.time()
     training_time=training_end_time-training_start_time    
     print("[INFO] Training finished.", flush=True)
-    matlab_file_name='ESMuon15tenthsnorm_cosinelr_0.03_NanoGPT_650_LossResults_zerorank_optim2_0.008_wd_1.2.m'
+    #matlab_file_name='ESMuon15tenthsnorm_cosinelr_0.03_NanoGPT_650_LossResults_zerorank_optim2_0.008_wd_1.2.m'
     #matlab_file_name='NSMuon_cosinelr_0.03_NanoGPT_200_LossResults_zerorank.m'
+	matlab_file_name='AdamW_cosinelr_0.008_NanoGPT_650_LossResults_zerorank.m'
     with open(matlab_file_name, "a") as f:
        f.write(f"%Total training time for {args.epochs} epochs: {training_time:.2f};\n")
 
