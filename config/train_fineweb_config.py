@@ -11,6 +11,5 @@ B = 64 # micro batch size
 T = 1024 # sequence length
 assert batch_size % (B * T * ddp_world_size) == 0, "make sure total_batch_size is divisible by B * T * ddp_world_size"
 gradient_accumulation_steps = batch_size // (B * T * ddp_world_size)
-if master_process:
-    print(f"total desired batch size: {batch_size}")
-    print(f"=> calculated gradient accumulation steps: {gradient_accumulation_steps}")
+print(f"total desired batch size: {batch_size}")
+print(f"=> calculated gradient accumulation steps: {gradient_accumulation_steps}")
