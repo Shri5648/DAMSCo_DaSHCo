@@ -165,12 +165,12 @@ class DistDataModel():
 				self.epoch = checkpoint['iter_num']
 				self.best_val_loss = checkpoint['best_val_loss']
 			#rank = self.optim.rank
-			if (optim_name=='AdamW'):
+			if (optimizer_name=='AdamW'):
 				rank = 0
 			else:
 				rank = self.optim[0].rank if isinstance(self.optim, list) else self.optim.rank			
 			#self.device = self.optim.devices[rank % len(self.optim.devices)]
-			if (optim_name=='AdamW'):
+			if (optimizer_name=='AdamW'):
 				self.device = self.device
 			elif isinstance(self.optim, list):
 				self.device = self.optim[0].devices[rank % len(self.optim[0].devices)]
