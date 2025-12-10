@@ -9,6 +9,7 @@ dropout=0.1
 batch_size = 524288 # 2**19, ~0.5M, in number of tokens
 B = 64 # micro batch size
 T = 1024 # sequence length
+ddp_world_size = int(os.environ['WORLD_SIZE'])
 assert batch_size % (B * T * ddp_world_size) == 0, "make sure total_batch_size is divisible by B * T * ddp_world_size"
 gradient_accumulation_steps = batch_size // (B * T * ddp_world_size)
 print(f"total desired batch size: {batch_size}")
