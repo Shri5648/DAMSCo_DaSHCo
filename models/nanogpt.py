@@ -46,6 +46,7 @@ if init_from == 'scratch':
         dropout=dropout
     )
     gptconf = GPTConfig(**model_args)
+    print("Model vocab size:", model_args['vocab_size'])
 elif init_from == 'resume':
     ckpt_path = "" # add the checkpoint file path here
     checkpoint = torch.load(ckpt_path)
@@ -56,7 +57,6 @@ elif init_from == 'resume':
     for k in ['n_layer', 'n_head', 'n_embd', 'block_size',  'vocab_size']:#'bias',
         model_args[k] = checkpoint_model_args[k]
     # create the model
-    print("Model vocab size:", model_args['vocab_size'])
     gptconf = GPTConfig(**model_args)
 else:
     raise ValueError(f"Unknown init_from: {init_from}. Expected 'scratch' or 'gpt2-*'")
