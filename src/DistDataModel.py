@@ -13,6 +13,7 @@ from .system_info import get_cuda_devices
 from .Compressor import *
 
 from optimizers import get_optimizer
+from mpi4py import MPI
 '''
 DistDataModel is a class which deals with simulating data distributed models.
 The class inherets from CommNet, which defines a network topology and communication
