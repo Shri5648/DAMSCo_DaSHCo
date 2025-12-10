@@ -145,7 +145,7 @@ class DistDataModel():
 				optim2 = torch.optim.AdamW(other_params, lr=0.008, betas=(0.65, 0.95), eps=1e-8, weight_decay=0.0)				
 				self.optim=[optim1, optim2]
 
-			else if (optimizer_name=='AdamW'):
+			elif (optimizer_name=='AdamW'):
 				self.optim = torch.optim.AdamW(self.model.parameters(), lr=0.008, betas=(0.65, 0.95), eps=1e-8, weight_decay=0.0)
 			
 			else:
@@ -263,8 +263,9 @@ class DistDataModel():
 					
 		# Write to Matlab file
 		if self.rank==0:
-			matlab_file_name='ESMuon15tenthsnorm_cosinelr_0.03_NanoGPT_650_LossResults_zerorank_optim2_0.008_wd_1.2.m'
+			#matlab_file_name='ESMuon15tenthsnorm_cosinelr_0.03_NanoGPT_650_LossResults_zerorank_optim2_0.008_wd_1.2.m'
 			#matlab_file_name= 'NSMuon_cosinelr_0.03_NanoGPT_200_LossResults_zerorank.m'
+			matlab_file_name='AdamW_cosinelr_0.008_NanoGPT_650_LossResults_zerorank.m'
 			with open(matlab_file_name, "a") as f:
 				f.write("%File written by DistDataModel.py\n")
 				f.write("%Training results\n") 
