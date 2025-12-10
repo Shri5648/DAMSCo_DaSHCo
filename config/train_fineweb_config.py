@@ -6,6 +6,7 @@ n_head: int = 12 # number of heads
 n_embd: int = 768 # embedding dimension
 dropout=0.1
 
+# Not included in initializing NanoGPT model. Still requires work to incorporate gradient accumulation steps into the code.
 batch_size = 524288 # 2**19, ~0.5M, in number of tokens
 B = 64 # micro batch size
 T = 1024 # sequence length
