@@ -145,8 +145,8 @@ class DistDataModel():
 				optim2 = torch.optim.AdamW(other_params, lr=0.008, betas=(0.65, 0.95), eps=1e-8, weight_decay=0.0)				
 				self.optim=[optim1, optim2]
 
-			#elif (optimizer_name=='AdamW'):
-			#	self.optim = torch.optim.AdamW(self.model.parameters(), lr=0.008, betas=(0.65, 0.95), eps=1e-8, weight_decay=0.0)
+			elif (optimizer_name=='AdamW'):
+				self.optim = torch.optim.AdamW(self.model.parameters(), lr=0.008, betas=(0.65, 0.95), eps=1e-8, weight_decay=0.0)
 			
 			else:
 				self.optim = get_optimizer(optimizer_name,self.model, compressor=compressor, \
@@ -165,9 +165,14 @@ class DistDataModel():
 				self.epoch = checkpoint['iter_num']
 				self.best_val_loss = checkpoint['best_val_loss']
 			#rank = self.optim.rank
-			rank = self.optim[0].rank if isinstance(self.optim, list) else self.optim.rank
+			if (optim_name=='AdamW'):
+				rank = 0
+			else:
+				rank = self.optim[0].rank if isinstance(self.optim, list) else self.optim.rank			
 			#self.device = self.optim.devices[rank % len(self.optim.devices)]
-			if isinstance(self.optim, list):
+			if (optim_name=='AdamW'):
+				self.device = self.device
+			elif isinstance(self.optim, list):
 				self.device = self.optim[0].devices[rank % len(self.optim[0].devices)]
 			else:
 				self.device = self.optim.devices[rank % len(self.optim.devices)]
