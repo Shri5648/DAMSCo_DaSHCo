@@ -144,6 +144,10 @@ class DistDataModel():
 				# Below Optim 2 Only for NSMuon. Actually, higher lr for AdamW gives better results. Mostly use below choice for AdamW.
 				optim2 = torch.optim.AdamW(other_params, lr=0.008, betas=(0.65, 0.95), eps=1e-8, weight_decay=0.0)				
 				self.optim=[optim1, optim2]
+
+			else if (optimizer_name=='AdamW'):
+				self.optim = torch.optim.AdamW(self.model.parameters(), lr=0.008, betas=(0.65, 0.95), eps=1e-8, weight_decay=0.0)
+			
 			else:
 				self.optim = get_optimizer(optimizer_name,self.model, compressor=compressor, \
 							  comm_set=self.comm_set, device=self.device, \
